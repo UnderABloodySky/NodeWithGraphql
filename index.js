@@ -15,7 +15,7 @@ const schema = buildSchema(`
     type Mutation{
         createUser(name: String, email: String):User,
         updateUser(id:ID!, name: String, email: String):User,
-        deleteUser(id: ID!):User,
+        deleteUser(id: ID!):String,
     },
 
     type User{
@@ -47,7 +47,7 @@ const resolver = {
             return newUser;    
     },
     deleteUser(input){
-        users.filter(user => user.id == input.id);
+        users.pop(user => user.id == input.id);
         return 'So bye bye, miss American Pie'
     },
     updateUser(input){
@@ -57,7 +57,7 @@ const resolver = {
             name:input.name, 
             email:input.email
         };
-        users.filter(user => user.id == lastUser.id);
+        users.pop(user => user.id == lastUser.id);
         users.push(newOldUser);
         return newOldUser;
     }
